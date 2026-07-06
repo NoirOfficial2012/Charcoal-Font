@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charcoal · Jst a silly font XD</title>
+  
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <style>
+    /* ----- LOCAL BACKUP CSS FONT DECLARATION ----- */
+    @font-face {
+      font-family: 'Charcoal';
+      src: url('./charcoal.otf') format('opentype'),
+           url('Grain-Regular (3).otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease; 
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      overflow-x: hidden;
+    }
+    
+    body.dark-mode {
+      background: #0b0b0b;
+      color: #f0eae3;
+    }
+    body.light-mode {
+      background: #f4f3ef;
+      color: #1a1a1a;
+    }
+
+    /* Global Dark Mode Typography Enforcement Rule */
+    body.dark-mode h1,
+    body.dark-mode h2,
+    body.dark-mode h3,
+    body.dark-mode p,
+    body.dark-mode span:not(.console-text),
+    body.dark-mode a,
+    body.dark-mode div:not(.graffiti-sticker):not(.control-console):not(.control-console *),
+    body.dark-mode pre,
+    body.dark-mode input,
+    body.dark-mode button:not(.console-btn) {
+      color: #f5f5f5;
+    }
+
+    /* Custom Typeface Enforcer */
+    .font-charcoal {
+      font-family: 'Charcoal', 'Impact', 'Arial Black', sans-serif !important;
+    }
+
+    /* Grit/Grid Brutalist Background Matrix */
+    .grit-grid-bg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none; 
+    }
+    .dark-mode .grit-grid-bg {
+      background: 
+        linear-gradient(rgba(240, 234, 227, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240, 234, 227, 0.03) 1px, transparent 1px),
+        repeating-conic-gradient(rgba(0,0,0,0.2) 0% 25%, transparent 0% 50%) 0 0 / 8px 8px,
+        #0d0d0d;
+      background-size: 40px 40px, 40px 40px, 12px 12px, auto;
+    }
+    .light-mode .grit-grid-bg {
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        repeating-conic-gradient(rgba(0,0,0,0.02) 0% 25%, transparent 0% 50%) 0 0 / 8px 8px,
+        #f4f3ef;
+      background-size: 40px 40px, 40px 40px, 12px 12px, auto;
+    }
+
+    .grit-grid-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+    }
+
+    /* ---- PLAYGROUND CANVAS TEXTURE OVERLAYS ---- */
+    .texture-blueprint {
+      background-image: linear-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.15) 1px, transparent 1px) !important;
+      background-size: 20px 20px !important;
+    }
+    .texture-checkerboard {
+      background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.08) 25%, transparent 25%), linear-gradient(-45deg, rgba(0, 0, 0, 0.08) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.08) 75%), linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.08) 75%) !important;
+      background-size: 30px 30px !important;
+      background-position: 0 0, 0 15px, 15px -15px, -15px 0px !important;
+    }
+    .dark-mode .texture-checkerboard {
+      background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%) !important;
+    }
+    .texture-photocopy {
+      background-image: radial-gradient(rgba(249, 115, 22, 0.2) 15%, transparent 16%) !important;
+      background-size: 16px 16px !important;
+    }
+
+    /* Interactive Specimen Placement & Visibility Rules */
+    .graffiti-sticker {
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 10;
+      padding: 4px 8px;
+      transition: transform 0.05s linear;
+      touch-action: none;
+    }
+    
+    .dark-mode .graffiti-sticker {
+      text-shadow: 
+        3px 3px 0px #000000, 
+       -1px -1px 0px #000000, 
+        1px -1px 0px #000000, 
+       -1px 1px 0px #000000,
+        0px 0px 12px rgba(0,0,0,0.9);
+    }
+    .light-mode .graffiti-sticker {
+      text-shadow: 
+        2px 2px 0px rgba(255, 255, 255, 0.9), 
+       -1px -1px 0px rgba(255, 255, 255, 0.9), 
+        1px -1px 0px rgba(255, 255, 255, 0.9), 
+       -1px 1px 0px rgba(255, 255, 255, 0.9);
+    }
+    
+    .graffiti-sticker:active {
+      cursor: grabbing;
+    }
+
+    .inline-highlight {
+      background-color: #e4e4e7;
+      color: #18181b;
+      border-color: #a1a1aa;
+      font-weight: 700;
+      padding: 2px 6px;
+      border: 1px solid #a1a1aa;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    body.dark-mode .inline-highlight {
+      background-color: #27272a;
+      color: #f5f5f5;
+      border-color: #52525b;
+    }
+
+    button, input, pre {
+      border-radius: 0 !important;
+    }
+
+    .switch-knob {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes shimmerSweep {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(120%); }
+    }
+
+    .reveal-up {
+      opacity: 0;
+      animation: riseIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    header.reveal-up { animation-delay: 0.05s; }
+    section.reveal-up:nth-of-type(2) { animation-delay: 0.12s; }
+    section.reveal-up:nth-of-type(3) { animation-delay: 0.18s; }
+
+    #playgroundCanvas.reveal-up {
+      animation: gentleFloat 6.5s ease-in-out infinite, riseIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.2s, 0.2s;
+    }
+
+    .download-btn, .console-btn, #themeToggleBtn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-btn::after, .console-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
+      transform: translateX(-120%);
+      transition: transform 0.55s ease;
+    }
+
+    .download-btn:hover::after, .console-btn:hover::after {
+      transform: translateX(120%);
+    }
+
+    .download-btn:hover, .console-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .theme-toggle {
+      position: relative;
+      width: 4rem;
+      height: 2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: #1f1f1f;
+      padding: 0.18rem;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 0 4px 10px rgba(0, 0, 0, 0.16);
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .theme-toggle--light {
+      background: #e4e4e7;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .theme-toggle-knob {
+      position: absolute;
+      inset: 0.18rem auto 0.18rem 0.18rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f97316;
+      color: #111;
+      font-size: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transform: translateX(0);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.25, 1), background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .theme-toggle--light .theme-toggle-knob {
+      transform: translateX(1.9rem);
+      background: #111;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
+    }
+
+    .theme-toggle-emoji {
+      pointer-events: none;
+      line-height: 1;
+      transform: translateY(1px);
+    }
+
+    .graffiti-sticker {
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
+      transition: transform 0.1s linear, filter 0.2s ease, opacity 0.2s ease;
+    }
+
+    .graffiti-sticker:hover {
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.24));
+    }
+  </style>
+</head>
+<body class="relative dark-mode">
+
+  <div class="grit-grid-bg" aria-hidden="true"></div>
+
+  <div class="fixed top-6 right-6 z-50 flex items-center gap-3">
+    <span class="font-mono text-[10px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400 hidden sm:inline">Theme Environment:</span>
+    <button id="themeToggleBtn" aria-label="Toggle structural lighting environment" aria-pressed="true" class="theme-toggle">
+      <div id="toggleKnob" class="theme-toggle-knob pointer-events-none select-none">
+        <span class="theme-toggle-emoji">🌙</span>
+      </div>
+    </button>
+  </div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-20">
+    
+    <header class="reveal-up flex flex-col gap-6 items-start border-b border-zinc-300 dark:border-zinc-800 pb-12">
+      <div class="text-orange-500 font-mono text-sm uppercase tracking-widest font-bold">✦ DISPLAY FONT</div>
+      
+      <h1 class="font-charcoal text-7xl md:text-9xl leading-none tracking-tighter uppercase select-all w-full text-zinc-900 dark:text-zinc-100">
+        CHARCOAL
+      </h1>
+      <p class="text-zinc-600 dark:text-zinc-400 text-base md:text-lg max-w-2xl font-mono leading-relaxed mt-2">
+        This Font Was Created By Me For Fun XD I Was Randomly Scrolling The YSWS Page at Hack Club (Im not the only one who does that, Right?) Well Anyways Thats When I Saw This YSWS Event & I Was Instantly Hooked. You See My Whole Family Is Either Artists Or Designers & For Some Reason Im The Only One In My Family Who Is Not Head Over Heels For Art XD Instead I Have a Huge Interest In Robotics So I Thought To Myself, "Why Not Try Making A Font?" So Here I Am. I Hope You Enjoy It!
+      </p>
+      
+      <a href="./charcoal.otf" download="charcoal.otf" class="download-btn mt-4 bg-orange-500 hover:bg-orange-600 text-black text-xs font-mono font-bold px-6 py-3.5 uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg">
+        <span>⬇</span> Download Charcoal.OTF
+      </a>
+    </header>
+
+    <section class="reveal-up grid grid-cols-1 md:grid-cols-2 gap-12 border-b border-zinc-300 dark:border-zinc-800 pb-16">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-xs font-mono tracking-widest uppercase text-orange-500 font-bold">✧ MANUAL INSTRUCTIONS</h2>
+        <h3 class="font-charcoal text-3xl md:text-4xl tracking-tight text-zinc-900 dark:text-zinc-100 uppercase">TUTORIAL GUIDE</h3>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm font-mono leading-relaxed">
+          Embed this typeface straight into your CSS markup to get raw brutalist styling instantly. Place your file alongside your index page and call the font face rules shown here.
+        </p>
+      </div>
+
+      <div class="bg-zinc-200/50 dark:bg-zinc-900/40 p-5 border border-zinc-300 dark:border-zinc-800/80 shadow-inner">
+        <div class="text-[10px] uppercase font-mono tracking-wider text-zinc-400 mb-2">// Load inside your stylesheet</div>
+        <pre class="bg-zinc-950 text-zinc-100 font-mono text-xs p-4 overflow-x-auto border border-zinc-700 leading-5">
+@font-face {
+  font-family: 'Charcoal';
+  src: url('./charcoal.otf') format('opentype');
+  font-display: swap;
+}
+
+h1, .custom-title {
+  font-family: 'Charcoal', sans-serif;
+  text-transform: uppercase;
+}</pre>
+      </div>
+    </section>
+
+    <section class="reveal-up flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <h2 class="text-xs font-mono tracking-widest uppercase text-orange-500 font-bold">✦ LAB EXPERIMENT</h2>
+        <h3 class="font-charcoal text-3xl md:text-5xl tracking-tight text-zinc-900 dark:text-zinc-100 uppercase">THE PLAYGROUND</h3>
+        <p class="text-zinc-600 dark:text-zinc-400 text-xs font-mono mt-1">
+          <span class="text-orange-500 font-bold">Instructions:</span> Type below to add text blocks. Drag items freely. <span class="inline-highlight">Right-Click</span> (or double-tap on mobile) directly on any word to delete it.
+        </p>
+      </div>
+
+      <div id="playgroundCanvas" class="reveal-up relative w-full h-[550px] border border-zinc-400 dark:border-zinc-800 bg-white/50 dark:bg-zinc-950/40 overflow-hidden shadow-2xl mt-2">
+        <div id="stickerContainer" class="absolute inset-0 pointer-events-auto"></div>
+        
+        <div class="control-console reveal-up absolute bottom-4 right-4 z-40 p-4 flex flex-col gap-3 w-[290px] bg-white text-neutral-900 border border-zinc-400 dark:border-zinc-700 shadow-xl backdrop-blur-md">
+          
+          <div>
+            <div class="console-text text-[9px] tracking-widest text-zinc-500 uppercase mb-1.5 font-bold">✦ Add Custom Phrase</div>
+            <div class="flex gap-2">
+              <input type="text" id="tagInput" placeholder="TYPE HERE..." maxlength="20" class="bg-zinc-100 border border-zinc-400 px-2.5 py-1 text-xs font-mono flex-1 text-zinc-900 uppercase focus:outline-none focus:border-orange-500">
+              <button id="tagBtn" class="console-btn bg-zinc-900 text-white font-mono font-bold text-xs px-3 uppercase tracking-wider hover:bg-orange-500 hover:text-white transition-colors">Add</button>
+              <button id="randomBtn" title="Spawn Random Vibe" class="console-btn bg-zinc-200 text-zinc-900 border border-zinc-400 font-mono text-xs px-2 hover:bg-orange-500 hover:text-white transition-colors">🎲</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="console-text text-[9px] tracking-widest text-zinc-500 uppercase mb-1.5 font-bold">✦ Canvas Background Texture</div>
+            <div class="grid grid-cols-4 gap-1">
+              <button id="texNone" class="console-btn bg-zinc-100 text-zinc-900 text-[9px] font-mono p-1 border border-zinc-300 hover:bg-orange-500 hover:text-white">PLAIN</button>
+              <button id="texGrid" class="console-btn bg-zinc-100 text-zinc-900 text-[9px] font-mono p-1 border border-zinc-300 hover:bg-orange-500 hover:text-white">GRID</button>
+              <button id="texCheck" class="console-btn bg-zinc-100 text-zinc-900 text-[9px] font-mono p-1 border border-zinc-300 hover:bg-orange-500 hover:text-white">CHECK</button>
+              <button id="texDots" class="console-btn bg-zinc-100 text-zinc-900 text-[9px] font-mono p-1 border border-zinc-300 hover:bg-orange-500 hover:text-white">DOTS</button>
+            </div>
+          </div>
+
+          <div class="border-t border-zinc-300 pt-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1">
+              <input type="color" id="colorPicker" value="#000000" class="w-6 h-6 bg-transparent border border-zinc-400 p-0.5 cursor-pointer">
+              <span class="console-text text-[9px] text-zinc-500 font-mono font-bold">CLR</span>
+            </div>
+
+            <div class="flex items-center gap-1.5 flex-1 max-w-[100px]">
+              <input type="range" id="sizeRange" min="24" max="100" value="48" class="w-full accent-orange-500 bg-zinc-300 h-1 appearance-none outline-none">
+              <span id="sizeLabel" class="console-text text-[10px] font-mono text-zinc-500 font-bold">48</span>
+            </div>
+
+            <button id="clearBtn" class="console-btn bg-white border border-zinc-400 text-zinc-700 hover:border-red-500 hover:text-red-500 text-[9px] uppercase font-mono tracking-wider px-2 py-1 transition-colors">Clear</button>
+          </div>
+
+          <button id="exportCanvasBtn" class="console-btn w-full bg-orange-500 text-black font-mono font-bold text-xs py-2 uppercase tracking-widest hover:bg-zinc-900 hover:text-white border border-transparent transition-all text-center shadow-md">
+            📷 Export Canvas Layout (.PNG)
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // Global stacking layer tracking depth
+      let highestZIndexOrder = 10;
+
+      function forceInjectFont() {
+        const pathsToTry = ['./charcoal.otf', 'charcoal.otf', './Grain-Regular (3).otf', 'Grain-Regular (3).otf'];
+        
+        function tryFetch(index) {
+          if (index >= pathsToTry.length) {
+            console.warn("⚠️ System was unable to load font file directly.");
+            return;
+          }
+          
+          fetch(pathsToTry[index])
+            .then(res => {
+              if (!res.ok) throw new Error("HTTP error " + res.status);
+              return res.arrayBuffer();
+            })
+            .then(buffer => {
+              const injectedFontFace = new FontFace('Charcoal', buffer);
+              return injectedFontFace.load();
+            })
+            .then(loadedFace => {
+              document.fonts.add(loadedFace);
+              console.log("🔥 SUCCESS: Charcoal typeface explicitly injected into active memory context!");
+              
+              document.body.style.display = 'none';
+              document.body.offsetHeight; 
+              document.body.style.display = '';
+            })
+            .catch(() => {
+              tryFetch(index + 1);
+            });
+        }
+        tryFetch(0);
+      }
+      
+      window.addEventListener('DOMContentLoaded', forceInjectFont);
+
+      // --- THEME ENVIRONMENT MANAGEMENT CONTROLLER ---
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const toggleKnob = document.getElementById('toggleKnob');
+      const colorPicker = document.getElementById('colorPicker');
+
+      colorPicker.value = '#111111';
+
+      function syncThemeUI() {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        themeToggleBtn.classList.toggle('theme-toggle--light', !isDarkMode);
+        themeToggleBtn.setAttribute('aria-pressed', String(!isDarkMode));
+        toggleKnob.innerHTML = `<span class="theme-toggle-emoji">${isDarkMode ? '🌙' : '☀️'}</span>`;
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        if (document.body.classList.contains('dark-mode')) {
+          document.body.classList.remove('dark-mode');
+          document.body.classList.add('light-mode');
+          if (colorPicker.value === '#f0eae3') colorPicker.value = '#111111';
+        } else {
+          document.body.classList.remove('light-mode');
+          document.body.classList.add('dark-mode');
+          if (colorPicker.value === '#111111') colorPicker.value = '#f0eae3';
+        }
+        syncThemeUI();
+      });
+
+      syncThemeUI();
+
+      // --- BACKGROUND TEXTURES MATRICES SWAP ACTION ---
+      const playgroundCanvas = document.getElementById('playgroundCanvas');
+      const texNone = document.getElementById('texNone');
+      const texGrid = document.getElementById('texGrid');
+      const texCheck = document.getElementById('texCheck');
+      const texDots = document.getElementById('texDots');
+
+      function removeAllTextures() {
+        playgroundCanvas.classList.remove('texture-blueprint', 'texture-checkerboard', 'texture-photocopy');
+        [texNone, texGrid, texCheck, texDots].forEach(b => {
+          b.style.backgroundColor = '';
+          b.style.color = '';
+        });
+      }
+
+      texNone.addEventListener('click', () => { removeAllTextures(); texNone.style.backgroundColor = '#f97316'; texNone.style.color = '#000'; });
+      texGrid.addEventListener('click', () => { removeAllTextures(); playgroundCanvas.classList.add('texture-blueprint'); texGrid.style.backgroundColor = '#f97316'; texGrid.style.color = '#000'; });
+      texCheck.addEventListener('click', () => { removeAllTextures(); playgroundCanvas.classList.add('texture-checkerboard'); texCheck.style.backgroundColor = '#f97316'; texCheck.style.color = '#000'; });
+      texDots.addEventListener('click', () => { removeAllTextures(); playgroundCanvas.classList.add('texture-photocopy'); texDots.style.backgroundColor = '#f97316'; texDots.style.color = '#000'; });
+
+      texNone.style.backgroundColor = '#f97316';
+      texNone.style.color = '#000';
+
+      // --- STICKER PLACEMENT ENGINE LAYER ---
+      const stickerContainer = document.getElementById('stickerContainer');
+      const sizeRange = document.getElementById('sizeRange');
+      const sizeLabel = document.getElementById('sizeLabel');
+      const clearBtn = document.getElementById('clearBtn');
+      const tagInput = document.getElementById('tagInput');
+      const tagBtn = document.getElementById('tagBtn');
+      const randomBtn = document.getElementById('randomBtn');
+
+      sizeRange.addEventListener('input', function() { sizeLabel.textContent = this.value; });
+
+      const randomWordsArray = ["CHARCOAL", "ROBOTICS", "HACK CLUB", "BRUTALISM", "YSWS", "PLAYGROUND", "TYPEFACE", "CREATIVE", "SPOOKY", "RAW TEXTURE", "LOGIC", "ENGINE"];
+      const randomColorsArray = ["#f97316", "#ef4444", "#3b82f6", "#10b981", "#a855f7", "#eab308", "#f43f5e", "#ffffff", "#000000"];
+
+      function createTextSticker(forcedText = null) {
+        const textValue = forcedText || tagInput.value.trim();
+        if (!textValue) return;
+
+        const sticker = document.createElement('div');
+        sticker.className = 'graffiti-sticker font-charcoal uppercase select-none font-bold tracking-tight';
+        sticker.innerText = textValue;
+        
+        const size = forcedText ? Math.floor(Math.random() * (80 - 30) + 30) : sizeRange.value;
+        const color = forcedText ? randomColorsArray[Math.floor(Math.random() * randomColorsArray.length)] : colorPicker.value;
+        
+        sticker.style.fontSize = `${size}px`;
+        sticker.style.color = color;
+        
+        highestZIndexOrder++;
+        sticker.style.zIndex = highestZIndexOrder;
+
+        const bounds = stickerContainer.getBoundingClientRect();
+        const randomX = Math.random() * (bounds.width * 0.5) + (bounds.width * 0.1);
+        const randomY = Math.random() * (bounds.height * 0.5) + (bounds.height * 0.1);
+        const randomRotation = (Math.random() - 0.5) * 14;
+
+        sticker.style.left = `${randomX}px`;
+        sticker.style.top = `${randomY}px`;
+        sticker.style.opacity = '0';
+        sticker.style.transform = `rotate(${randomRotation}deg) scale(0.92)`;
+
+        // --- LAYER DELETION AND SELECTION LISTENER DISPATCHERS ---
+        sticker.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          sticker.remove();
+        });
+
+        let lastTapTimestamp = 0;
+        sticker.addEventListener('touchend', function(e) {
+          const now = new Date().getTime();
+          const timespan = now - lastTapTimestamp;
+          if (timespan < 300 && timespan > 0) {
+            sticker.remove();
+            e.preventDefault();
+          }
+          lastTapTimestamp = now;
+        });
+
+        let isDraggingSticker = false;
+        let offsetX = 0, offsetY = 0;
+
+        function startDrag(e) {
+          isDraggingSticker = true;
+          
+          // Pulls clicked item into front z-stack plane instantly
+          highestZIndexOrder++;
+          sticker.style.zIndex = highestZIndexOrder;
+
+          const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          offsetX = clientX - sticker.offsetLeft;
+          offsetY = clientY - sticker.offsetTop;
+          sticker.style.transform = `rotate(${randomRotation}deg) scale(1.06)`;
+        }
+
+        function dragMove(e) {
+          if (!isDraggingSticker) return;
+          const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          sticker.style.left = `${clientX - offsetX}px`;
+          sticker.style.top = `${clientY - offsetY}px`;
+        }
+
+        function stopDrag() {
+          if(!isDraggingSticker) return;
+          isDraggingSticker = false;
+          sticker.style.transform = `rotate(${randomRotation}deg) scale(1)`;
+        }
+
+        sticker.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('mouseup', stopDrag);
+
+        sticker.addEventListener('touchstart', startDrag, {passive: true});
+        window.addEventListener('touchmove', dragMove, {passive: true});
+        window.addEventListener('touchend', stopDrag);
+
+        stickerContainer.appendChild(sticker);
+        requestAnimationFrame(() => {
+          sticker.style.transition = 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease';
+          sticker.style.opacity = '1';
+          sticker.style.transform = `rotate(${randomRotation}deg) scale(1)`;
+        });
+        if (!forcedText) tagInput.value = '';
+      }
+
+      tagBtn.addEventListener('click', () => createTextSticker());
+      randomBtn.addEventListener('click', () => {
+        const pickWord = randomWordsArray[Math.floor(Math.random() * randomWordsArray.length)];
+        createTextSticker(pickWord);
+      });
+
+      tagInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') createTextSticker(); });
+      clearBtn.addEventListener('click', () => { stickerContainer.innerHTML = ''; });
+
+      // --- RESOLUTION SNAPSHOT CANVAS ENGINE SAVER ---
+      const exportCanvasBtn = document.getElementById('exportCanvasBtn');
+      
+      exportCanvasBtn.addEventListener('click', () => {
+        html2canvas(playgroundCanvas, {
+          backgroundColor: document.body.classList.contains('dark-mode') ? '#0b0b0b' : '#f4f3ef', 
+          logging: false,
+          useCORS: true, 
+          scale: 2 
+        }).then(canvas => {
+          const imageURL = canvas.toDataURL("image/png");
+          const downloadAnchorLink = document.createElement('a');
+          downloadAnchorLink.download = "charcoal-specimen-zine.png";
+          downloadAnchorLink.href = imageURL;
+          downloadAnchorLink.click();
+        }).catch(err => {
+          console.error("Image render engine issue:", err);
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
